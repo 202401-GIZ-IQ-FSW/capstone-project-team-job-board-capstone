@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+import HeroSection from "./HeroSection";
+
 
 require("dotenv").config();
 
@@ -21,9 +23,11 @@ app.listen(port, () => {
 });
 
 app.get("/test", (req, res) => {
-  res.json(
-    "Server connection to client works!!  Good Luck with your capstones :D"
-  );
+ 
+  // res.json(
+  //   "Server connection to client works!!  Good Luck with your capstones :D"
+  // );
 });
+
 
 module.exports = app;
