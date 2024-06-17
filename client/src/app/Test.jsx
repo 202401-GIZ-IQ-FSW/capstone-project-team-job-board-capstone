@@ -5,14 +5,15 @@ const Hello = () => {
   const [testResult, setTestResult] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/test")
+    fetch("http://localhost:3001/users")
       .then((res) => res.json())
       .then((data) => {
         setTestResult(data);
+        console.log(data);
       });
   }, []);
 
-  return <div>{testResult}</div>;
+  return <div></div>;
 };
 
 export default Hello;
