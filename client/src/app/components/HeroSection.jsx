@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const HeroSection = () => {
 	return (
-		<section className='w-full bg-white py-24 p-4'>
+		<section className='w-full text-white py-24 p-4'>
 			<div className='md:max-w-[1100px] m-auto grid md:grid-cols-2 max-w-[400px]'>
 				<div className='flex flex-col justify-start gap-4'>
 					<p className='py-2 text-4xl text-[#208486] font-bold'>
@@ -13,15 +13,15 @@ const HeroSection = () => {
 					</p>
 					<h1 className='md:leading-[42px] py-2 md:text-3xl text-lg font-semibold'>
 						Access to over
-						<span className='text-[#208486]'>
+						<span className='text-[#208486] px-4'>
 							150 and counting
 						</span>
 						vacancies from over
-						<span className='text-[#208486]'>99</span>
+						<span className='text-[#208486] px-4'>99</span>
 						companies and factories who are looking for
 						talents like you!
 					</h1>
-					<p className='py-2 text-lg text-gray-900'>
+					<p className='py-2 text-lg text-[#208486]'>
 						Search your next career
 					</p>
 					<form className='input-box-shadow flex justify-content-between items-center bg-transparent gap-2'>
