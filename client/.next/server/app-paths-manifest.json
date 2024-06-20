@@ -1,6 +1,10 @@
 {
   "/page": "app/page.js",
+<<<<<<< HEAD
   "/pages/about/page": "app/pages/about/page.js",
   "/pages/jobs/page": "app/pages/jobs/page.js",
   "/pages/signin/page": "app/pages/signin/page.js"
+=======
+  "/pages/search/page": "app/pages/search/page.js"
+>>>>>>> FE/SearchPage
 }
