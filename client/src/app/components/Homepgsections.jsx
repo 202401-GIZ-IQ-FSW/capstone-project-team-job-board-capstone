@@ -7,10 +7,10 @@ import { Data3 } from "../data";
 
 const Homepgsections = () => {
 	return (
-		<div>
+		<div className='text-black'>
 			<div>
 				<div className='flex items-center justify-center '>
-					<h1 className='text-5xl font-bold'>
+					<h1 className='text-5xl font-bold text-white '>
 						{" "}
 						Popular job categories{" "}
 					</h1>
@@ -38,7 +38,7 @@ const Homepgsections = () => {
 										className='border-[2px] rounded-[10px] block p-[10px] w-full text-[14px] font-semibold text-textColor
                             hover:bg-white group-hover/item:text-textColor group-hover:text-black'
 									>
-										Explare
+										Explore
 									</button>
 								)}
 							</div>
@@ -49,7 +49,7 @@ const Homepgsections = () => {
 
 			<div>
 				<div className='flex items-center justify-center '>
-					<h1 className='text-5xl font-bold'>
+					<h1 className='text-5xl font-bold text-white'>
 						{" "}
 						Featured employers{" "}
 					</h1>
@@ -115,7 +115,7 @@ const Homepgsections = () => {
 
 			<div>
 				<div className='flex items-center justify-center'>
-					<h1 className='text-5xl font-bold'>
+					<h1 className='text-5xl font-bold text-white'>
 						{" "}
 						Advance Your Career{" "}
 					</h1>

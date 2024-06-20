@@ -1,15 +1,3 @@
 {
-  "/not-found": "app/not-found.js",
-  "/page": "app/page.js",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "/pages/about/page": "app/pages/about/page.js",
-  "/pages/jobs/page": "app/pages/jobs/page.js",
-  "/pages/signin/page": "app/pages/signin/page.js"
-=======
-  "/pages/search/page": "app/pages/search/page.js"
->>>>>>> FE/SearchPage
-=======
-  "/favicon.ico/route": "app/favicon.ico/route.js"
->>>>>>> homepgsections
+  "/page": "app/page.js"
 }

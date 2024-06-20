@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// File: F:\Job-Board\capstone-project-team-job-board-capstone\client\src\app\layout.js
-=======
 // File: /Volumes/DDO 🐥/4. ReCoded/FullStack Development Bootcamp/4. Backend/capstone-project-team-job-board-capstone/client/src/app/layout.js
->>>>>>> homepgsections
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
