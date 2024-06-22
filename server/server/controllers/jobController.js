@@ -81,6 +81,22 @@ exports.getJobById = async (req, res) => {
 	}
 };
 
+exports.getJobsByCategory = async (req, res) => {
+	const category = req.params.category;
+	try {
+		const jobs = await Job.find({ category })
+			.populate("employer", "username email employerInfo")
+			.lean();
+		if (jobs.length === 0) {
+			return res
+				.status(404)
+				.json({ error: "No jobs found in this category" });
+		}
+		res.status(200).json(jobs);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
 
 // Controller to delete all jobs and clear postedJobs field for all employers
 exports.deleteJobs = async (req, res) => {
