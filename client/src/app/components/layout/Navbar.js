@@ -7,7 +7,9 @@ const Navbar = () => {
   const handleOnClick = () => {
     router.push("../../pages/signin/");
   };
-
+  const SignUphandleOnClick = () => {
+    router.push("../../pages/signup/");
+  };
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -31,10 +33,20 @@ const Navbar = () => {
           </Link>
 
         </div>
-        <button onClick={()=>handleOnClick()} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
-          Sign In
-        </button>
-
+        <div className="space-x-2">
+          <button
+            onClick={() => handleOnClick()}
+            className=" text-white px-4 py-2 rounded-md hover:underline focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => SignUphandleOnClick()}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          >
+            Sign Up
+          </button>
+        </div>
       </div>
     </nav>
   );
