@@ -98,6 +98,38 @@ exports.getJobsByCategory = async (req, res) => {
 	}
 };
 
+// Controller to delete a job by ID
+exports.deleteJobById = async (req, res) => {
+    const jobId = req.params.id;
+
+    // Check if jobId is a valid ObjectId because id has a specific length
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+        return res.status(400).json({ error: "Invalid job ID format" });
+    }
+
+    try {
+        // Find the job to be deleted
+        const job = await Job.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ error: "Job not found" });
+        }
+
+        // Delete the job
+        await Job.findByIdAndDelete(jobId);
+
+        // Update the employer's postedJobs field to remove the job reference
+        await User.findByIdAndUpdate(
+            job.employer,
+            { $pull: { "employerInfo.postedJobs": jobId } },
+            { new: true, useFindAndModify: false }
+        );
+
+        res.status(200).json({ message: "Job deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
 // Controller to delete all jobs and clear postedJobs field for all employers
 exports.deleteJobs = async (req, res) => {
 	try {
