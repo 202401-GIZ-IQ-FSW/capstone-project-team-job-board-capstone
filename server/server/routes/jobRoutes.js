@@ -10,10 +10,16 @@ router.post("/job", jobController.createJob);
 router.get("/jobs", jobController.getJobs);
 
 // Route to get a job by ID
-router.get("/job/id=:id", jobController.getJobById);
+router.get("/job/:id", jobController.getJobById);
 
 // Route to get jobs by category
 router.get("/jobs/category/:category", jobController.getJobsByCategory);
+
+//Route to delete a job by ID
+router.delete("/job/:id", jobController.deleteJobById);
+
+//Route to edit a job by ID
+router.put("/job/:id", jobController.updateJobById);
 
 // Route to delete all jobs and clear employer's postedJobs field
 router.delete("/jobs", jobController.deleteJobs);
