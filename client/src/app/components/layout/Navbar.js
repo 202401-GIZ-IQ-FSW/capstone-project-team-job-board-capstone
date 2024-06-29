@@ -61,10 +61,10 @@ const Navbar = () => {
               Jobs
             </Link>
             <Link
-              href="../../pages/browse"
+              href="../../pages/postNewJobs"
               className="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
-              Browse
+              Post New Jobs
             </Link>
             <Link
               href="../../pages/search"
