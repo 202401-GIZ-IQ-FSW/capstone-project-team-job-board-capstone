@@ -25,8 +25,8 @@ const Navbar = () => {
           <Link href="../../pages/jobs" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
             Jobs
           </Link>
-          <Link href="../../pages/browse/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-            Browse
+          <Link href="../../pages/postNewJobs/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+            Post New Jobs
           </Link>
           <Link href="../../pages/search/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
             Search
