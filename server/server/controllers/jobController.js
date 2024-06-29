@@ -1,10 +1,18 @@
 const Job = require("../models/Job");
 const User = require("../models/User");
+const mongoose = require("mongoose");
+
 
 // Controller to create a new job
 exports.createJob = async (req, res) => {
-	const { title, description, location, salary, employer } =
-		req.body;
+	const {
+		title,
+		description,
+		location,
+		salary,
+		employer,
+		category,
+	} = req.body;
 	try {
 		// Create the new job
 		const newJob = new Job({
@@ -13,6 +21,7 @@ exports.createJob = async (req, res) => {
 			location,
 			salary,
 			employer,
+			category,
 		});
 		// Save the job to the database
 		const savedJob = await newJob.save();
@@ -40,10 +49,119 @@ exports.getJobs = async (req, res) => {
 		const jobs = await Job.find()
 			.populate("employer", "username email employerInfo")
 			.lean();
-		res.status(200).send(jobs);
+		res.status(200).json(jobs);
 	} catch (error) {
-		res.status(400).send({ error: error.message });
+		res.status(400).json({ error: error.message });
 	}
+};
+
+// Controller to get a job by ID
+exports.getJobById = async (req, res) => {
+	const jobId = req.params.id;
+
+	// Check if jobId is a valid ObjectId because id has a specific length
+	if (!mongoose.Types.ObjectId.isValid(jobId)) {
+		return res
+			.status(400)
+			.json({ error: "Invalid job ID format" });
+	}
+
+	try {
+		const job = await Job.findById(jobId)
+			.populate("employer", "username email employerInfo")
+			.lean();
+		if (!job) {
+			return res
+				.status(404)
+				.send({ error: "Job not found" });
+		}
+		res.status(200).json(job);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+exports.getJobsByCategory = async (req, res) => {
+	const category = req.params.category;
+	try {
+		const jobs = await Job.find({ category })
+			.populate("employer", "username email employerInfo")
+			.lean();
+		if (jobs.length === 0) {
+			return res
+				.status(404)
+				.json({ error: "No jobs found in this category" });
+		}
+		res.status(200).json(jobs);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+// Controller to delete a job by ID
+exports.deleteJobById = async (req, res) => {
+    const jobId = req.params.id;
+
+    // Check if jobId is a valid ObjectId because id has a specific length
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+        return res.status(400).json({ error: "Invalid job ID format" });
+    }
+
+    try {
+        // Find the job to be deleted
+        const job = await Job.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ error: "Job not found" });
+        }
+
+        // Delete the job
+        await Job.findByIdAndDelete(jobId);
+
+        // Update the employer's postedJobs field to remove the job reference
+        await User.findByIdAndUpdate(
+            job.employer,
+            { $pull: { "employerInfo.postedJobs": jobId } },
+            { new: true, useFindAndModify: false }
+        );
+
+        res.status(200).json({ message: "Job deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+// Controller to update a job by ID
+exports.updateJobById = async (req, res) => {
+  const jobId = req.params.id;
+  const { title, description, location, salary, employer, category } = req.body;
+
+  // Check if jobId is a valid ObjectId because id has a specific length
+  if (!mongoose.Types.ObjectId.isValid(jobId)) {
+    return res.status(400).json({ error: "Invalid job ID format" });
+  }
+
+  try {
+    // Find the job to be updated
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+
+    // Update the job details
+    job.title = title || job.title;
+    job.description = description || job.description;
+    job.location = location || job.location;
+    job.salary = salary || job.salary;
+    job.employer = employer || job.employer;
+    job.category = category || job.category;
+
+    // Save the updated job to the database
+    const updatedJob = await job.save();
+
+    res.status(200).json(updatedJob);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 // Controller to delete all jobs and clear postedJobs field for all employers
@@ -54,15 +172,13 @@ exports.deleteJobs = async (req, res) => {
 			{ role: "employer" },
 			{ $set: { "employerInfo.postedJobs": [] } }
 		);
-		res
-			.status(200)
-			.send({
-				message:
-					"All jobs and employer's posted jobs deleted successfully",
-			});
+		res.status(200).json({
+			message:
+				"All jobs and employer's posted jobs deleted successfully",
+		});
 	} catch (error) {
 		res
 			.status(500)
-			.send({ error: "Internal server error" });
+			.json({ error: "Internal server error" });
 	}
 };
