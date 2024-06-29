@@ -17,7 +17,7 @@ when you run `yarn add PACKAGE` the package will be installed in docker as well 
 
 In this project folder, you will find:
 
-A component called `Test` where there's an API call to the endpoint `/test` if you did everything correctly visiting your `http://localhost:3000/`u should see this
+A component called `Test` where there's an API call to the endpoint `/test` if you did everything correctly visiting your `yarn `u should see this
 
 ![alt text](./client-preview.png)
 
