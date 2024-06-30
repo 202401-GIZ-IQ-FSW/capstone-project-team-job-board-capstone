@@ -1,100 +1,119 @@
-
 "use client";
 
 import InputBox from '@/app/components/inputBoxComponent/inputBox';
 import { useState } from 'react';
 
-export default function postNewJobs() {
-  const [jobPosition, setJobPosition] = useState('');
-  const [area, setArea] = useState('');
-  const [field, setField] = useState('');
-  const [experience, setExperience] = useState('');
-  const [employment, setEmployment] = useState('');
-  const [wage, setWage] = useState(50); // Initial wage value set to the midpoint
+export default function PostNewJobs() {
+  const [jobType, setJobType] = useState('');
+  const [jobCategory, setJobCategory] = useState('');
+  const [applicationMethod, setApplicationMethod] = useState('');
 
   const handleSearch = () => {
     // Handle search logic here
-    console.log({ jobPosition, area, field, experience, employment, wage });
+    console.log({ jobType, jobCategory, applicationMethod });
   };
 
   return (
-    <main className="flex min-h-screen flex-col   p-6">
+    <main className="flex min-h-screen flex-col p-6">
+      <h1 className="text-xl font-bold">Job Details</h1>
 
-      <h1><b>Job Details</b></h1>
-
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Job Title' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Job Description' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Job Title" className="w-full sm:w-1/2" />
+        <InputBox placeholder="Job Description" className="w-full sm:w-1/2" />
       </div>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Job Type' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Job Category' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <select 
+          value={jobType} 
+          onChange={(e) => setJobType(e.target.value)} 
+          className="p-2 border border-gray-300 rounded w-full sm:w-1/2 h-12"
+        >
+          <option value="" disabled>Select Job Type</option>
+          <option value="full-time">Full-Time</option>
+          <option value="part-time">Part-Time</option>
+          <option value="contract">Contract</option>
+        </select>
+        <select 
+          value={jobCategory} 
+          onChange={(e) => setJobCategory(e.target.value)} 
+          className="p-2 border border-gray-300 rounded w-full sm:w-1/2 h-12"
+        >
+          <option value="" disabled>Select Job Category</option>
+          <option value="tech">Tech</option>
+          <option value="health">Health</option>
+          <option value="finance">Finance</option>
+        </select>
       </div>
 
-      <h1><b>Company Information</b></h1>
+      <h1 className="text-xl font-bold">Company Information</h1>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Company Name' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Company Website' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Company Name" className="w-full sm:w-1/2" />
+        <InputBox placeholder="Company Website" className="w-full sm:w-1/2" />
       </div>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Company Description' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Company Description" className="w-full" />
       </div>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Linkedin Profile' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Twitter Profile' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="LinkedIn Profile" className="w-full sm:w-1/2" />
+        <InputBox placeholder="Twitter Profile" className="w-full sm:w-1/2" />
       </div>
 
-      <h1><b>Job Requirements</b></h1>
+      <h1 className="text-xl font-bold">Job Requirements</h1>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Minimum Education Level' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Years of Experience' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Minimum Education Level" className="w-full sm:w-1/2" />
+        <InputBox placeholder="Years of Experience" className="w-full sm:w-1/2" />
       </div>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Required Certifications' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Required Skills' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Required Certifications" className="w-full sm:w-1/2" />
+        <InputBox placeholder="Required Skills" className="w-full sm:w-1/2" />
       </div>
 
-      <h1><b>Location & Application</b></h1>
+      <h1 className="text-xl font-bold">Location & Application</h1>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Job Location' onChange={()=>{}} ></InputBox>
-      <InputBox  placeholder='Application Method' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Job Location" className="w-full sm:w-1/2" />
+        <select 
+          value={applicationMethod} 
+          onChange={(e) => setApplicationMethod(e.target.value)} 
+          className="p-2 border border-gray-300 rounded w-full sm:w-1/2 h-12"
+        >
+          <option value="" disabled>Select Application Method</option>
+          <option value="email">Email</option>
+          <option value="website">Website</option>
+          <option value="in-person">In-Person</option>
+        </select>
       </div>
 
-      <div className="flex flex-row  gap-16">
-      <InputBox  placeholder='Application Deadline' onChange={()=>{}} ></InputBox>
+      <div className="flex flex-wrap gap-4">
+        <InputBox placeholder="Application Deadline" className="w-full" />
       </div>
-<h1><b>Submission Options</b></h1>
-      <div className="flex  space-x-16">
-            <button
-              onClick={() => {}}
-              className={`py-2 px-4 rounded ${employment === 'full-time' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-            >
-              Save as Draft
-            </button>
-            <button
-              onClick={() => {}}
-              className={`py-2 px-4 rounded ${employment === 'part-time' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-            >
-              Preview Job Listing
-            </button>
-            <button
-              onClick={() => {}}
-              className={`py-2 px-4 rounded ${employment === 'in-person' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-            >
-              Submit for Review
-            </button>
-       
-           
-          </div>
 
+      <h1 className="text-xl font-bold">Submission Options</h1>
+      <div className="flex flex-wrap gap-4">
+        <button
+          onClick={() => { }}
+          className="py-2 px-4 bg-gray-200 text-gray-700 rounded w-full sm:w-auto"
+        >
+          Save as Draft
+        </button>
+        <button
+          onClick={() => { }}
+          className="py-2 px-4 bg-gray-200 text-gray-700 rounded w-full sm:w-auto"
+        >
+          Preview Job Listing
+        </button>
+        <button
+          onClick={() => { }}
+          className="py-2 px-4 bg-gray-200 text-gray-700 rounded w-full sm:w-auto"
+        >
+          Submit for Review
+        </button>
+      </div>
     </main>
   );
 }
