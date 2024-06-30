@@ -33,7 +33,7 @@ export default function About() {
         <p class="text-center text-2xl font-medium text-gray-900 dark:text-white">"Thanks to your support, I was able to get an internship at Avesta group. Now, I'm at the end of the internship and got a job offer!"</p>
         <img class="w-6 h-6 rounded-full" src="https://avatars.design/wp-content/uploads/2022/09/5business-team-employee-personal-avatar.png" alt="profile picture avatar onluine"></img>
         <div class="text-center flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700 ">
-          <div class="pr-3 font-medium text-gray-900 dark:text-white">Ahmed Mohamed</div>
+          <div class="pr-3 font-medium text-gray-900 dark:text-white">Ola Mohamed</div>
           <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">Intern @ Avesta Group</div>
         </div>
       </div>
