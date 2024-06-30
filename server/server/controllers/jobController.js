@@ -5,52 +5,112 @@ const mongoose = require("mongoose");
 
 // Controller to create a new job
 exports.createJob = async (req, res) => {
-	const {
-		title,
-		description,
-		location,
-		salary,
-		employer,
-		category,
-	} = req.body;
-	try {
-		// Create the new job
-		const newJob = new Job({
-			title,
-			description,
-			location,
-			salary,
-			employer,
-			category,
-		});
-		// Save the job to the database
-		const savedJob = await newJob.save();
-		// Update the employer's postedJobs field
-        const updatedEmployer = await User.findByIdAndUpdate(
-            employer,
-            {
-                $push: { "employerInfo.postedJobs": savedJob._id },
-            },
-            { new: true, useFindAndModify: false }
-        );
+  const { title, description, location, salary, employer, category } = req.body;
 
-		// Respond with the created job and updated employer
-		res
-			.status(201)
-			.json({ job: savedJob, employer: updatedEmployer.username });
-	} catch (error) {
-		res.status(400).json({ error: error.message });
-	}
+  try {
+    // Validate employer ID format
+    if (!mongoose.Types.ObjectId.isValid(employer)) {
+      return res.status(400).json({ error: "Invalid employer ID format" });
+    }
+
+    // Create the new job
+    const newJob = new Job({
+      title,
+      description,
+      location,
+      salary,
+      employer,
+      category,
+    });
+
+    // Save the job to the database
+    const savedJob = await newJob.save();
+
+    // Update the employer's postedJobs field
+    const updatedEmployer = await User.findByIdAndUpdate(
+      employer,
+      { $push: { "employerInfo.postedJobs": savedJob._id } },
+      { new: true, useFindAndModify: false }
+    );
+
+    // Ensure employer exists
+    if (!updatedEmployer) {
+      await Job.findByIdAndDelete(savedJob._id); // Rollback job creation
+      return res.status(404).json({ error: "Employer not found" });
+    }
+
+    // Respond with the created job and updated employer
+    res.status(201).json({ job: savedJob, employer: updatedEmployer.username });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
-// Controller to get all jobs
+
+// Controller to get all jobs with optional filters, pagination, and sorting
 exports.getJobs = async (req, res) => {
+	// Destructure query parameters from the request
+	const {
+		title,
+		location,
+		salary,
+		category,
+		employer,
+		page = 1,
+		limit = 10,
+		sortBy = "createdAt",
+		order = "desc",
+	} = req.query;
+
+	// Build a filter object based on the query parameters
+	let filter = {};
+	if (title)
+		filter.title = { $regex: title, $options: "i" }; // case-insensitive match for title
+	if (location)
+		filter.location = { $regex: location, $options: "i" }; // case-insensitive match for location
+	if (salary) filter.salary = salary; // exact match for salary
+	if (category) filter.category = category; // exact match for category
+	if (employer) filter.employer = employer; // exact match for employer
+
+	// Pagination
+	const pageNumber = parseInt(page, 10); // Convert page number to integer
+	const pageSize = parseInt(limit, 10); // Convert page size to integer
+
+	// Sorting
+	const sortOrder = order === "asc" ? 1 : -1; // Determine sort order (1 for ascending, -1 for descending)
+	const sortOptions = {}; // Initialize sort options object
+	sortOptions[sortBy] = sortOrder; // Set the sort field and order
+
 	try {
-		const jobs = await Job.find()
-			.populate("employer", "username email employerInfo")
-			.lean();
-		res.status(200).json(jobs);
+		// Fetch jobs from the database based on filters, pagination, and sorting
+		const jobs = await Job.find(filter)
+			.populate("employer", "username email employerInfo") // Populate employer field with username, email, and employerInfo
+			.sort(sortOptions) // Apply sorting options
+			.skip((pageNumber - 1) * pageSize) // Skip documents for pagination
+			.limit(pageSize) // Limit the number of documents returned for pagination
+			.lean(); // Convert documents to plain JavaScript objects
+
+		// If no jobs are found, return a 404 status with a message
+		if (jobs.length === 0) {
+			return res
+				.status(404)
+				.json({ message: "No matching jobs found" });
+		}
+
+		// Get the total count of documents matching the filter
+		const totalJobs = await Job.countDocuments(filter);
+
+		// Respond with the jobs and pagination info
+		res.status(200).json({
+			jobs, // List of jobs
+			pagination: {
+				totalJobs, // Total number of jobs
+				currentPage: pageNumber, // Current page number
+				totalPages: Math.ceil(totalJobs / pageSize), // Total number of pages
+			},
+		});
 	} catch (error) {
+		// If there's an error, respond with a 400 status and the error message
 		res.status(400).json({ error: error.message });
 	}
 };
@@ -164,6 +224,7 @@ exports.updateJobById = async (req, res) => {
   }
 };
 
+
 // Controller to delete all jobs and clear postedJobs field for all employers
 exports.deleteJobs = async (req, res) => {
 	try {
@@ -182,3 +243,4 @@ exports.deleteJobs = async (req, res) => {
 			.json({ error: "Internal server error" });
 	}
 };
+

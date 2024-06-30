@@ -6,7 +6,7 @@ const router = express.Router();
 // Route to create a new job
 router.post("/job", jobController.createJob);
 
-// Route to get all jobs
+// Route to get all jobs with optional filters
 router.get("/jobs", jobController.getJobs);
 
 // Route to get a job by ID
