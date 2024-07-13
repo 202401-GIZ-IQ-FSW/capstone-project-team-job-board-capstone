@@ -35,7 +35,6 @@ exports.getUsers = async (req, res) => {
 	}
 };
 
-
 // Controller to get a user by ID
 exports.getUserById = async (req, res) => {
 	try {
@@ -78,7 +77,6 @@ exports.deleteUserById = async (req, res) => {
 		res.status(500).send({ error: "Internal server error" });
 	}
 };
-
 
 // Controller to delete all users
 exports.deleteUsers = async (req, res) => {
