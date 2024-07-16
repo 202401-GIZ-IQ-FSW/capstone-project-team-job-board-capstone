@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchJobs } from "../../api/jobsApi";
+import { handlePageChange } from "../../utils";
 
 const JobsList = () => {
 	const [jobs, setJobs] = useState([]);
@@ -25,16 +26,6 @@ const JobsList = () => {
 		getJobs();
 	}, [currentPage]);
 
-	const handlePageChange = (direction) => {
-		if (direction === "prev" && currentPage > 1) {
-			setCurrentPage(currentPage - 1);
-		} else if (
-			direction === "next" &&
-			currentPage < totalPages
-		) {
-			setCurrentPage(currentPage + 1);
-		}
-	};
 
 	if (loading) {
 		return <p className='text-center'>Loading...</p>;
@@ -52,59 +43,70 @@ const JobsList = () => {
 						className='bg-white rounded-lg shadow-md p-4 hover:bg-gray-100'
 					>
 						<Link href={`/pages/jobs/${job._id}`}>
-								<h2 className='text-xl font-bold mb-2'>
-									{job.title}
-								</h2>
-								<p className='text-gray-700 mb-2'>
-									{job.description}
-								</p>
-								<p className='text-gray-700 mb-2'>
-									Location: {job.location}
-								</p>
-								<p className='text-gray-700 mb-2'>
-									Salary: ${job.salary}
-								</p>
-								<p className='text-gray-700 mb-2'>
-									Category: {job.category}
-								</p>
-								{job.employer && (
-									<div className='mt-4'>
-										<h3 className='text-lg font-semibold mb-2'>
-											Employer Details
-										</h3>
-										<p className='text-gray-700'>
-											Username: {job.employer.username}
-										</p>
-										<p className='text-gray-700'>
-											Email: {job.employer.email}
-										</p>
-										<p className='text-gray-700'>
-											Location:{" "}
-											{job.employer.employerInfo.location}
-										</p>
-										<p className='text-gray-700'>
-											Phone:{" "}
-											{
-												job.employer.employerInfo
-													.phoneNumber
-											}
-										</p>
-									</div>
-								)}
+							<h2 className='text-xl font-bold mb-2'>
+								{job.title}
+							</h2>
+							<p className='text-gray-700 mb-2'>
+								{job.description}
+							</p>
+							<p className='text-gray-700 mb-2'>
+								Location: {job.location}
+							</p>
+							<p className='text-gray-700 mb-2'>
+								Salary: ${job.salary}
+							</p>
+							<p className='text-gray-700 mb-2'>
+								Category: {job.category}
+							</p>
+							{job.employer && (
+								<div className='mt-4'>
+									<h3 className='text-lg font-semibold mb-2'>
+										Employer Details
+									</h3>
+									<p className='text-gray-700'>
+										Username: {job.employer.username}
+									</p>
+									<p className='text-gray-700'>
+										Email: {job.employer.email}
+									</p>
+									<p className='text-gray-700'>
+										Location:{" "}
+										{job.employer.employerInfo.location}
+									</p>
+									<p className='text-gray-700'>
+										Phone:{" "}
+										{job.employer.employerInfo.phoneNumber}
+									</p>
+								</div>
+							)}
 						</Link>
 					</li>
 				))}
 			</ul>
 			<div className='flex justify-center mt-6'>
 				<button
-					onClick={() => handlePageChange("prev")}
+					onClick={() =>
+						handlePageChange(
+							"prev",
+							currentPage,
+							setCurrentPage,
+							totalPages
+						)
+					}
 					className='bg-blue-500 text-white px-4 py-2 rounded mr-2 disabled:opacity-50'
 					disabled={currentPage === 1}
 				>
 					Previous
 				</button>
 				<button
-					onClick={() => handlePageChange("next")}
+					onClick={() =>
+						handlePageChange(
+							"next",
+							currentPage,
+							setCurrentPage,
+							totalPages
+						)
+					}
 					className='bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50'
 					disabled={currentPage === totalPages}
 				>
